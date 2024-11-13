@@ -1,3 +1,7 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Sancion {
     private int sancionID;
     private int sancionDuracion;
@@ -49,5 +53,19 @@ public class Sancion {
     }
     public int getDniJugador() {
         return jugador.getJugadorDNI();
+    }
+
+    public boolean sancionActiva() {
+        SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date fechaInicio = fecha.parse(sancionFechaInicio);
+            Date fechaFin = fecha.parse(sancionFechaFin);
+            Date fechaActual = new Date();
+            return (fechaActual.equals(fechaInicio) || fechaActual.after(fechaInicio)) &&
+                    (fechaActual.equals(fechaFin) || fechaActual.before(fechaFin));
+        } catch (ParseException e) {
+            System.out.println("Error al analizar fechar");
+            return false;
+        }
     }
 }

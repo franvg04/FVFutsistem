@@ -1,3 +1,8 @@
+import com.sun.source.tree.ReturnTree;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Jugador {
     private int jugadorDNI;
     private String jugadorNombre;
@@ -6,18 +11,19 @@ public class Jugador {
     private int jugadorGoles;
     private int tarjetasAmarillas;
     private int tarjetasRojas;
-    private boolean sancionActiva;
     private int idEquipo;
+    private List<Sancion> sanciones;
 
     public Jugador (int jugadorDNI, String jugadorNombre, String jugadorApellido, int jugadorEdad, int equipoID) {
         this.jugadorDNI = jugadorDNI;
         this. jugadorNombre = jugadorNombre;
         this.jugadorApellido = jugadorApellido;
         this.jugadorEdad = jugadorEdad;
+        this.idEquipo = equipoID;
         this.jugadorGoles = 0;
         this.tarjetasAmarillas = 0;
         this.tarjetasRojas = 0;
-        this.sancionActiva = false;
+        this.sanciones = new ArrayList<>();
     }
 
     public int getJugadorDNI() {
@@ -68,17 +74,23 @@ public class Jugador {
         this.tarjetasRojas = tarjetasRojas;
     }
 
-    public boolean isSancionActiva() {
-        return sancionActiva;
-    }
-    public void setSancionActiva(boolean sancionActiva) {
-        this.sancionActiva = sancionActiva;
-    }
-
     public int getIdEquipo() {
         return idEquipo;
     }
     public void setIdEquipo(int idEquipo) {
         this.idEquipo = idEquipo;
+    }
+
+    public boolean sancionado() {
+        for (Sancion sancion : sanciones) {
+            if (sancion.sancionActiva()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Sancion> getSanciones() {
+        return sanciones;
     }
 }
